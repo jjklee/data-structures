@@ -30,5 +30,3 @@ queueMethods.dequeue = function() {
 queueMethods.size = function() {
   return this.storageSize;
 };
-
-var queue = Queue();
