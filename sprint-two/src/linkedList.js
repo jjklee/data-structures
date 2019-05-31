@@ -4,9 +4,11 @@ var LinkedList = function() {
   var list = {};
   list.head = null;
   list.tail = null;
-
+  list.size = 0;
+  
   list.addToTail = function(value) {
     let newNode = new Node(value);
+    list.size++;
     let current;
     if (list.head === null) {
       list.head = newNode;
@@ -19,22 +21,25 @@ var LinkedList = function() {
   
   list.removeHead = function() {
     if (list.head !== null) {
-      list.head = list.head.next;
-      let currentHead = list.head;
+      let currentHead = list.head.value;
+      let newHead = list.head.next;
       delete list.head;
+      list.head = newHead;
+      list.size--;
       return currentHead;
     }
   };
 
   list.contains = function(target) {
-    // for (let key in target) {
-    //   if (Object.values(target).includes(target)) {
-    //     return true;
-    //   }
-    //   return false;
-    // }
+    var holder = list.head;
+    for (let i = 0; i < list.size; i++) {
+      if (holder.value === target) {
+        return true;
+      }
+      holder = holder.next;
+    }
+    return false;
   };
-
   return list;
 };
 
