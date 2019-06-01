@@ -3,6 +3,7 @@ var Graph = function() {
   this.node = [];
   this.edges = [];
   this.numOfNodes = 0;
+  //refactor this.node = {};
 };
 
 // Add a node to the graph, passing in the node's value.
