@@ -31,10 +31,13 @@ HashTable.prototype.retrieve = function(k) {
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
+  for (let i = 0; i < this._storage[index].length; i ++) {
+    if (this._storage[index][i][0] === k) {
+      delete this._storage[index][i][1];
+    }
+  }
 };
 
-
-var hash = new HashTable();
 /*
  * Complexity: What is the time complexity of the above functions?
  */
