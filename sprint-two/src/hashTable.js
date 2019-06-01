@@ -18,7 +18,6 @@ HashTable.prototype.insert = function(k, v) {
       }
     }
   }
-  console.log(this._storage);
 };
 
 HashTable.prototype.retrieve = function(k) {
