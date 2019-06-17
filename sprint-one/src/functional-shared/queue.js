@@ -18,7 +18,7 @@ queueMethods.enqueue = function(value) {
 };
 
 queueMethods.dequeue = function() {
-  if (this.storageSize > 0) {
+  if (this.size()) {
     let first = Object.values(this.storage)[0];
     delete this.storage[Object.keys(this.storage)[0]];
     this.currentQueue += 1;

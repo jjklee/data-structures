@@ -24,5 +24,3 @@ Queue.prototype.dequeue = function () {
 Queue.prototype.size = function () {
   return this.storageSize;
 };
-
-var newQueue = new Queue();

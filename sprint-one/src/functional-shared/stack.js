@@ -17,7 +17,7 @@ stackMethods.push = function(value) {
 };
 
 stackMethods.pop = function() {
-  if (this.storageSize > 0) {
+  if (this.size()) {
     let last = this.storage[this.storageSize - 1];
     delete this.storage[this.storageSize - 1];
     this.storageSize -= 1;

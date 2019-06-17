@@ -22,10 +22,8 @@ var Stack = function() {
   };
 
   someInstance.size = function() {
-    return storageSize
+    return storageSize;
   };
 
   return someInstance;
 };
-
-var stack = Stack();
