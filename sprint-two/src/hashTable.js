@@ -6,19 +6,24 @@ var HashTable = function() {
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  if (this._storage[index] === undefined) {
+  var bucket = this._storage.get(index);
+  var assigned = false;
+  if (!bucket) {
+    this._storage.set(index, [[k, v]]);
     this.size++;
-    this._storage[index] = [[k, v]];
-  } else {
-    for (let i = 0; i < this._storage[index].length; i++) {
-      if (this._storage[index][i][0] === k) {
-        this._storage[index][i][1] = v;
-      } 
+    assigned = true;
+  } else if (bucket.length) {
+    for (var i = 0; i < bucket.length; i++) {
+      if (bucket[i][0] === k) {
+        this._storage.get(index)[i][1] = v;
+        assigned = true;
+      }
     }
-    this.size++;
-    this._storage[index].push([k, v]);
-  }
-
+    if (!assigned) {
+      bucket.push([k, v]);
+      this.size++;
+    }
+  } 
   if (this.size / this._limit > 0.75) {
     this.resize(this._limit * 2);
   }
@@ -26,12 +31,13 @@ HashTable.prototype.insert = function(k, v) {
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  if (!this._storage[index]) {
-    return;
+  var bucket = this._storage.get(index);
+  if (!bucket) {
+    return undefined;
   }
-  for (let i = 0; i < this._storage[index].length; i ++) {
-    if (this._storage[index][i][0] === k) {
-      return this._storage[index][i][1];
+  for (var i = 0; i < bucket.length; i++) {
+    if (bucket[i][0] === k) {
+      return bucket[i][1];
     }
   }
 };
@@ -58,11 +64,12 @@ HashTable.prototype.resize = function(limit) {
   for (let i = 0; i < oldStorage.length; i++) {
     if (oldStorage[i]) {
       for (let j = 0; j < oldStorage[i].length; j++) {
-        var index = getIndexBelowMaxForKey(oldStorage[i][j], limit);
+        var bucket = oldStorage[i][j];
+        var index = getIndexBelowMaxForKey(bucket, limit);
         if (this._storage[index]) {
-          this._storage[index].push([oldStorage[i][j][0], oldStorage[i][j][1]]);
+          this._storage[index].push([bucket[0], bucket[1]]);
         } else {
-          this._storage[index] = [[oldStorage[i][j][0], oldStorage[i][j][1]]];
+          this._storage[index] = [[bucket[0], bucket[1]]];
         }
       }
     }
